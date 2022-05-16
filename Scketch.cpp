@@ -6,6 +6,8 @@
 
 #define TO_LEFT -1
 #define TO_RIGHT 1
+#define UP 1
+#define DOWN -1
 
 #define RS 8
 #define ENBL 9
@@ -19,9 +21,17 @@
 
 struct LiquidCrystal{
 
-    LiquidCrystal(int a, int b, int c, int d, int e, int f);
-    void setCursor(int, int);
-    void print(char*);
+    LiquidCrystal(int a, int b, int c, int d, int e, int f){}
+
+    void setCursor(int col, int row){
+
+        printf("cursor: %i, %i\n", col, row);
+    }
+
+    void print(const char* buf){
+
+        printf("print: %s\n", buf);
+    }
 };
 
 enum{
@@ -54,7 +64,31 @@ class Display{
 public:
 
     Display();
-    void check_button();
+    void check_button(){
+
+        change_symbol(UP);
+        change_symbol(UP);
+        move_cursor(TO_RIGHT);
+
+        change_symbol(UP);
+        change_symbol(UP);
+        change_symbol(UP);
+        change_symbol(UP);
+        change_symbol(UP);
+        change_symbol(UP);
+        change_symbol(UP);
+        change_symbol(UP);
+        change_symbol(UP);
+        change_symbol(UP);
+        change_symbol(UP);
+        move_cursor(TO_RIGHT);
+
+        change_symbol(UP);
+        change_symbol(UP);
+        move_cursor(TO_RIGHT);
+
+        change_condition();
+    }
 };
 
 Display::Display(): lcd(RS, ENBL, D1, D2, D3, D4){
@@ -89,7 +123,7 @@ void Display::move_line(int direction){ //не сдвигает обратно �
 
     line_pos = new_pos;
     print_first_line();
-    lcd.setCursor(cursor_pos - line_pos, 0);
+    //lcd.setCursor(cursor_pos - line_pos, 0);                        //error лишняя строчка
 }
 
 void Display::print_first_line(){
@@ -159,9 +193,10 @@ void Display::calc_answer(){  //разобраться с синтаксичес
     }
 
     Calc calc(buf);
-    sprintf(buf, "%i", calc.get_ans());
+    printf("%lf\n", calc.get_ans());                 
+    //sprintf(buf, "%lf", calc.get_ans());          //error
 
-    lcd.setCursor(0, 1);
+    lcd.setCursor(0, 1);                                        
 
     if (calc.check_error()){
 
@@ -171,7 +206,7 @@ void Display::calc_answer(){  //разобраться с синтаксичес
         lcd.print("syntax error");
     }  
 
-    lcd.setCursor(cursor_pos - line_pos, 1);    
+    lcd.setCursor(cursor_pos - line_pos, 0);    //error
 }
 
 void Display::clear_lines(){
@@ -189,4 +224,12 @@ void Display::clear_lines(){
 
     line_pos = 0;
     cursor_pos = 0;
+}
+
+
+int main(){
+
+    Display displ;
+
+    displ.check_button();
 }
