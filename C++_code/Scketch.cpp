@@ -19,7 +19,7 @@
 #define ALPHABET "!0123456789+-*/^()"
 #define LINE_SIZE 16
 
-struct LiquidCrystal{
+struct LiquidCrystal{ //эмуляция экрана
 
     LiquidCrystal(int a, int b, int c, int d, int e, int f){}
 
@@ -31,6 +31,11 @@ struct LiquidCrystal{
     void print(const char* buf){
 
         printf("print: %s\n", buf);
+    }
+
+    void print(double num){
+
+        printf("print: %lf\n", num);
     }
 };
 
@@ -66,28 +71,17 @@ public:
     Display();
     void check_button(){
 
-        change_symbol(UP);
-        change_symbol(UP);
-        move_cursor(TO_RIGHT);
+        //button events
+    }
 
-        change_symbol(UP);
-        change_symbol(UP);
-        change_symbol(UP);
-        change_symbol(UP);
-        change_symbol(UP);
-        change_symbol(UP);
-        change_symbol(UP);
-        change_symbol(UP);
-        change_symbol(UP);
-        change_symbol(UP);
-        change_symbol(UP);
-        move_cursor(TO_RIGHT);
+    void setup_display(){
 
-        change_symbol(UP);
-        change_symbol(UP);
-        move_cursor(TO_RIGHT);
+        //call in setup
+    }
 
-        change_condition();
+    void wait_after_button(){
+
+        //delay after button event
     }
 };
 
@@ -123,7 +117,6 @@ void Display::move_line(int direction){ //не сдвигает обратно �
 
     line_pos = new_pos;
     print_first_line();
-    //lcd.setCursor(cursor_pos - line_pos, 0);                        //error лишняя строчка
 }
 
 void Display::print_first_line(){
@@ -181,7 +174,7 @@ void Display::change_condition(){
     }
 }
 
-void Display::calc_answer(){  //разобраться с синтаксическими ошибками
+void Display::calc_answer(){
 
     char buf[MAXLEN + 1];
     buf[MAXLEN] = '\0';
@@ -193,20 +186,19 @@ void Display::calc_answer(){  //разобраться с синтаксичес
     }
 
     Calc calc(buf);
-    printf("%lf\n", calc.get_ans());                 
-    //sprintf(buf, "%lf", calc.get_ans());          //error
+    double ans = calc.get_ans();                
 
     lcd.setCursor(0, 1);                                        
 
     if (calc.check_error()){
 
-        lcd.print(buf);
+        lcd.print(ans);
     } else{
 
         lcd.print("syntax error");
     }  
 
-    lcd.setCursor(cursor_pos - line_pos, 0);    //error
+    lcd.setCursor(cursor_pos - line_pos, 0);
 }
 
 void Display::clear_lines(){

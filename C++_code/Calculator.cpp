@@ -3,8 +3,6 @@
 #define MAX_UNARY_OP_SIZE 3
 #define MAX_NUM_SIZE 10
 
-#define IS_DOUBLE ((line[cur_pos + num_size] >= '0') && (line[cur_pos + num_size] <= '9')) || (line[cur_pos + num_size])
-
 Calc::Calc(line_ptr new_line){
 
     line = new char[strlen(new_line) + 1];
