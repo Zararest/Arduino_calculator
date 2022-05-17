@@ -3,3 +3,8 @@
 5_Calculator
 .gitignore
 Calculator
+*/*.aux
+*/*.log
+*/*.out
+*/*.synctex.gz
+*/*.toc
